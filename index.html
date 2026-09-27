@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<!-- This tells the browser: "This is an HTML5 document" -->
+<html lang="en">
+<!-- lang="en" means the page is in English -->
+
+<head>
+  <!-- The <head> section contains info ABOUT the page (not visible on the page itself) -->
+
+  <meta charset="UTF-8">
+  <!-- charset="UTF-8" allows the browser to display all characters correctly (including emojis) -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- This makes the page look good on phones and tablets, not just computers -->
+
+  <title>My Favorite Things - Rania Azemmour</title>
+  <!-- This text appears in the browser tab at the top -->
+
+  <style>
+    /* ===== CSS STYLES START HERE ===== */
+    /* CSS controls HOW the page looks: colors, fonts, sizes, spacing... */
+
+    /* Import a nice Google Font called "Poppins" */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+
+    /* Reset: remove default margins/padding so we start clean */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box; /* makes sizing more predictable */
+    }
+
+    /* Style the whole page (body) */
+    body {
+      font-family: 'Poppins', sans-serif;          /* use Poppins font, fallback to sans-serif */
+      background: linear-gradient(135deg, #ffeef5 0%, #fff5f8 100%); /* soft pink gradient background */
+      color: #4a2c3a;                              /* dark pinkish text color */
+      min-height: 100vh;                           /* page is at least full screen tall */
+      padding: 40px 20px;                          /* space around the edges */
+      /* NOTE: "overflow-x: hidden" was removed — it was breaking the confetti! */
+    }
+
+    /* The big white card in the middle that holds everything */
+    .card {
+      max-width: 750px;                            /* card won't get wider than 750px */
+      margin: 0 auto;                              /* centers the card horizontally */
+      background: #ffffff;                         /* white background */
+      border-radius: 30px;                         /* rounded corners */
+      padding: 50px 40px;                          /* space inside the card */
+      box-shadow: 0 20px 60px rgba(255, 105, 180, 0.15); /* soft pink shadow below */
+      border: 2px solid #ffd6e8;                   /* light pink border */
+    }
+
+    /* The main title "My Favorite Things" */
+    h1 {
+      font-size: 2.5rem;         /* 2.5x the normal text size */
+      font-weight: 800;          /* extra bold */
+      text-align: center;        /* center the text */
+      color: #d6336c;            /* pink color */
+      margin-bottom: 8px;        /* space below */
+    }
+
+    /* The subtitle under the title (name, school, grade) */
+    .subtitle {
+      text-align: center;
+      font-size: 1rem;
+      color: #b07085;
+      margin-bottom: 30px;
+      font-weight: 300;          /* thin text */
+    }
+
+    /* The intro box (the pink box with the welcome message) */
+    .intro {
+      background: linear-gradient(135deg, #fff0f6, #ffe4ef); /* light pink gradient */
+      padding: 25px;
+      border-radius: 20px;
+      margin-bottom: 35px;
+      font-size: 1.05rem;
+      line-height: 1.7;          /* space between lines of text */
+      text-align: center;
+      border-left: 4px solid #ff8fb1; /* thicker pink line on the left side */
+    }
+
+    /* Section headings like "My Favorite Foods" */
+    h2 {
+      font-size: 1.5rem;
+      color: #d6336c;
+      margin-bottom: 15px;
+      display: flex;              /* puts emoji and text side by side */
+      align-items: center;
+      gap: 10px;                  /* space between emoji and text */
+    }
+
+    /* Each section (foods, movies, hobbies) */
+    .section {
+      margin-bottom: 30px;        /* space between sections */
+    }
+
+    /* The list of favorites (the colored boxes) */
+    .favorites {
+      list-style: none;           /* remove default bullet points */
+      display: grid;              /* use CSS Grid for layout */
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* auto-adjust columns */
+      gap: 12px;                  /* space between boxes */
+    }
+
+    /* Each individual favorite item (e.g. "🍕 Pizza") */
+    .favorites li {
+      background: #fff5f9;
+      border: 2px solid #ffd6e8;
+      border-radius: 15px;
+      padding: 18px 15px;
+      text-align: center;
+      font-weight: 600;
+      color: #6b3d4f;
+      transition: all 0.3s ease;  /* smooth animation when hovering */
+      cursor: default;
+    }
+
+    /* When mouse hovers over a favorite item, it changes color and lifts up */
+    .favorites li:hover {
+      transform: translateY(-4px);              /* move up by 4 pixels */
+      background: #ff8fb1;                       /* turn pink */
+      color: #fff;
+      border-color: #ff8fb1;
+      box-shadow: 0 8px 20px rgba(214, 51, 108, 0.25); /* add shadow */
+    }
+
+    /* The big surprise button */
+    .surprise-btn {
+      display: block;
+      margin: 40px auto 0;       /* center the button, with space on top */
+      padding: 16px 45px;
+      background: linear-gradient(135deg, #ff8fb1, #d6336c); /* pink gradient */
+      color: #fff;
+      border: none;
+      border-radius: 50px;       /* fully rounded (pill shape) */
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: inherit;      /* use same font as the page */
+      cursor: pointer;           /* show hand cursor on hover */
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(214, 51, 108, 0.35);
+    }
+
+    /* When you hover over the button, it grows a tiny bit */
+    .surprise-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(214, 51, 108, 0.5);
+    }
+
+    /* When you click the button, it shrinks a tiny bit (gives a "click" feel) */
+    .surprise-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* The secret message box — hidden by default, shows when button is clicked */
+    #secretMessage {
+      display: none;             /* hidden at first */
+      margin-top: 25px;
+      padding: 25px;
+      background: linear-gradient(135deg, #d6336c, #ff8fb1);
+      color: #fff;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      animation: pop 0.5s ease;  /* play the "pop" animation when it appears */
+    }
+
+    /* The pop animation: makes the message grow from small to big */
+    @keyframes pop {
+      0%   { transform: scale(0.5); opacity: 0; }   /* start small and invisible */
+      100% { transform: scale(1);   opacity: 1; }   /* end normal size and visible */
+    }
+
+    /* The footer at the bottom of the card */
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #b07085;
+      font-weight: 300;
+    }
+
+    /* Confetti pieces — created by JavaScript when the button is clicked */
+    .confetti {
+      position: fixed;            /* stays in place even when scrolling */
+      width: 12px;
+      height: 12px;
+      top: -20px;                 /* start above the screen */
+      pointer-events: none;       /* confetti doesn't block clicks */
+      z-index: 9999;              /* confetti appears on top of everything */
+      /* No animation here — we set it inline in JavaScript for reliability */
+    }
+
+    /* The fall animation: confetti falls from top to bottom of the screen */
+    @keyframes fall {
+      0%   { transform: translateY(-10vh) rotate(0deg);   opacity: 1; } /* start above screen */
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } /* end below screen, rotated */
+    }
+
+    /* Responsive design: on small screens (phones), make things smaller */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.9rem; }
+      .card { padding: 35px 22px; }
+      h2 { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- The <body> section contains everything VISIBLE on the page -->
+
+  <!-- ===== MAIN WHITE CARD ===== -->
+  <div class="card">
+
+    <!-- TITLE -->
+    <h1>🌸 My Favorite Things 🌸</h1>
+    <p class="subtitle">A little website by Rania Azemmour · Agora Scientifique · 9th Grade</p>
+
+    <!-- INTRO BOX -->
+    <div class="intro">
+      👋 Hi! My name is <strong>Rania Azemmour</strong> and I'm a 9th grade student at
+      <strong>Agora Scientifique</strong>. Welcome to my page! Here I'm sharing some of my
+      favorite things — the foods I love, the movies I enjoy, and the hobbies that make me happy.
+      Thanks for visiting! 💕
+    </div>
+
+    <!-- FAVORITE FOODS SECTION -->
+    <div class="section">
+      <h2>🎂 My Favorite Foods</h2>
+      <ul class="favorites">
+        <li>🍪 Cookies</li>
+        <li>🍕 Pizza</li>
+        <li>🍝 Lasagna</li>
+      </ul>
+    </div>
+
+    <!-- FAVORITE MOVIES SECTION -->
+    <div class="section">
+      <h2>🎬 My Favorite Movies</h2>
+      <ul class="favorites">
+        <li>🤫 A Quiet Place</li>
+        <li>🔫 Bad Boys</li>
+        <li>🎲 Jumanji</li>
+      </ul>
+    </div>
+
+    <!-- FAVORITE HOBBIES SECTION -->
+    <div class="section">
+      <h2>🎨 My Favorite Hobbies</h2>
+      <ul class="favorites">
+        <li>🏊 Swimming</li>
+        <li>🎤 Singing</li>
+        <li>✈️ Traveling</li>
+      </ul>
+    </div>
+
+    <!-- SURPRISE BUTTON -->
+    <!-- onclick="showSurprise()" means: when clicked, run the showSurprise() JavaScript function -->
+    <button class="surprise-btn" onclick="showSurprise()">🎁 Click for a Surprise!</button>
+
+    <!-- SECRET MESSAGE (hidden until button is clicked) -->
+    <div id="secretMessage">
+      💖 Thank you so much for visiting my page! 💖<br>
+      Have a wonderful day! 🌸
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      Made with 💗 by Rania Azemmour · Computer Science Project
+    </footer>
+
+  </div>
+
+  <!-- ===== JAVASCRIPT STARTS HERE ===== -->
+  <!-- JavaScript makes the page INTERACTIVE (handles clicks, animations, etc.) -->
+  <script>
+    // This variable keeps track of whether the button has been clicked yet
+    let clicked = false;
+
+    // This function runs when the surprise button is clicked
+    function showSurprise() {
+      // 1. Show the secret message (it was hidden with display: none in CSS)
+      const msg = document.getElementById('secretMessage');
+      msg.style.display = 'block';
+
+      // 2. Launch the confetti animation
+      launchConfetti();
+
+      // 3. Change the button text after the first click
+      if (!clicked) {
+        document.querySelector('.surprise-btn').textContent = '🎉 Click again for more confetti!';
+        clicked = true;
+      }
+    }
+
+    // This function creates the confetti pieces
+    function launchConfetti() {
+      // Array of colors for the confetti pieces
+      const colors = ['#ff8fb1', '#d6336c', '#ffd6e8', '#ffc107', '#a78bfa', '#4ade80', '#60a5fa'];
+
+      // Create 80 confetti pieces
+      for (let i = 0; i < 80; i++) {
+        // 1. Create a new <div> element (a small square)
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+
+        // 2. Pick a random horizontal position (0% to 100% of screen width)
+        confetti.style.left = Math.random() * 100 + 'vw';
+
+        // 3. Pick a random color from the colors array
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        // 4. Pick random fall time (2 to 4 seconds) and delay (0 to 0.5 seconds)
+        const duration = 2 + Math.random() * 2;
+        const delay = Math.random() * 0.5;
+
+        // 5. Set the FULL animation inline (more reliable than separate properties)
+        confetti.style.animation = 'fall ' + duration + 's linear ' + delay + 's forwards';
+
+        // 6. Make some confetti pieces round (circle), some square (for variety)
+        if (Math.random() > 0.5) {
+          confetti.style.borderRadius = '50%';
+        }
+
+        // 7. Add the confetti piece to the page so it appears
+        document.body.appendChild(confetti);
+
+        // 8. Remove the confetti piece after the animation finishes
+        setTimeout(function() { confetti.remove(); }, (duration + delay) * 1000 + 200);
+      }
+    }
+  </script>
+
+</body>
+</html>
